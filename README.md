@@ -1,7 +1,5 @@
 # Legos-in-the-jungle
 
-All right @everyone, we're looking into some course material that we can all follow side by side, but parallel to that, it is still important that we work towards our goal application.
-
 We've put together an example generator called "Legos in the jungle", where a Lego of roughly size 40x20 is random (uniformly) rotated and placed in a 100x100 jungle image (subsampled from a larger one), all in black and white.
 
 The code for this first challenge is found in /Challenge-1/. By running generateData.py you create the two data sets with 5000 samples (by default), the first 1000 which are designated validation data.
