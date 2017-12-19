@@ -11,7 +11,7 @@ from tensorflow.python.keras.layers import Convolution2D, MaxPooling2D
 from keras.utils import np_utils
 from tensorflow.python.keras.datasets import mnist
  
-# 4. Load pre-shuffled MNIST data into train and test sets
+# 4. Load the lego-jungle data
 x = np.load('F:\Dropbox\ml_course\legos\legos\lego_est_data.npy')
 y = np.load('F:\Dropbox\ml_course\legos\legos\lego_est_labels.npy')
 
