@@ -19,11 +19,15 @@ We challenge you to improve this number, by ANY means! Be creative! If you can b
 
 0.9304 Oskar and Kristofer (using Keras Tutorial: The Ultimate Beginner's Guide....)
 
+0.9877 Mattias (using a reduced version of the VGGNet)
+
 0.xxx New leaders (using tricks y and z)
 
 ### Estimation
 
 0.9147 Oskar and Kristofer (using Classification result + quadratic penalty)
+
+0.9793 Mattias (using a reduced version of the VGGNet with quadratic penalty)
 
 0.xxx New leaders (using tricks y and z)
 
