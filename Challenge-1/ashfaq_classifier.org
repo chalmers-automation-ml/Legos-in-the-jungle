@@ -1,0 +1,133 @@
+#+TITLE: Legos Classification
+ 
+
+ Inspiration from 
+https://blog.keras.io/building-powerful-image-classification-models-using-very-little-data.html
+
+#+BEGIN_SRC ipython :results output drawer :session :async
+
+  # 3. Import libraries and modules
+  import numpy as np
+  np.random.seed(123)  # for reproducibility
+
+
+  from tensorflow.python.keras.models import Sequential
+  from tensorflow.python.keras.layers import Dense, Dropout, Activation, Flatten
+  from tensorflow.python.keras.layers import Convolution2D, MaxPooling2D
+  from keras.utils import np_utils
+  from tensorflow.python.keras.datasets import mnist
+  # 4. Load the lego-jungle data
+  x = np.load('/home/ashfaqf/Projects/Legos-in-the-jungle/Challenge-1/lego_class_data.npy')
+  y = np.load('/home/ashfaqf/Projects/Legos-in-the-jungle/Challenge-1/lego_class_labels.npy')
+
+  
+  # 5. Preprocess input data
+  ##X_validate
+  ##Y_validate
+  X_test = np.expand_dims((x[:,:,:1000].astype('float32') / 255), axis=3).transpose((2,0,1,3))
+  X_train = np.expand_dims((x[:,:,1000:].astype('float32') / 255), axis=3).transpose((2,0,1,3))
+
+  Y_test = y[:1000,0]
+  Y_train = y[1000:,0]    # First column marks if data exists
+  # 6. Preprocess class labels
+  Y_train = np_utils.to_categorical(Y_train.astype('uint8'),2)
+  Y_test = np_utils.to_categorical(Y_test.astype('uint8'),2)
+
+  #
+
+  model = Sequential()
+  model.add(Convolution2D(32, (3, 3), input_shape=(100,100,1)))
+  model.add(Activation('relu'))
+  model.add(MaxPooling2D(pool_size=(2, 2)))
+
+  model.add(Convolution2D(32, (3, 3)))
+  model.add(Activation('relu'))
+  model.add(MaxPooling2D(pool_size=(2, 2)))
+
+  model.add(Convolution2D(64, (3, 3)))
+  model.add(Activation('relu'))
+  model.add(Dropout(0.5))
+  model.add(MaxPooling2D(pool_size=(2, 2)))
+
+  model.add(Flatten())
+  model.add(Dense(64))
+  model.add(Activation('relu'))
+  model.add(Dropout(0.5))
+  model.add(Dense(2))
+  model.add(Activation('sigmoid'))
+
+  model.compile(loss='binary_crossentropy',
+                optimizer='rmsprop',
+  metrics=['accuracy'])
+
+
+
+  # 9. Fit model on training data
+  history = model.fit(X_train, Y_train, 
+                      batch_size=32, epochs=25, verbose=2, validation_split = 1/10)
+
+  # 10. Evaluate model on test data
+  score = model.evaluate(X_test, Y_test, verbose=2)
+  print("Prediction on test data resulted in a score of" + str(score[0])+ " and accuracy of " + str(score[1]))
+  # 11. Our scoring
+  print('This network scored an average val_acc of ' + str(np.mean(history.history['val_acc'][-10:])) + ' in the last 10 epochs')
+
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+Train on 3600 samples, validate on 400 samples
+Epoch 1/25
+15s - loss: 0.6953 - acc: 0.5410 - val_loss: 0.6641 - val_acc: 0.6312
+Epoch 2/25
+14s - loss: 0.5870 - acc: 0.6901 - val_loss: 0.5443 - val_acc: 0.7562
+Epoch 3/25
+14s - loss: 0.4706 - acc: 0.7740 - val_loss: 0.4978 - val_acc: 0.7612
+Epoch 4/25
+14s - loss: 0.3858 - acc: 0.8229 - val_loss: 0.3310 - val_acc: 0.8762
+Epoch 5/25
+14s - loss: 0.3116 - acc: 0.8732 - val_loss: 0.2837 - val_acc: 0.9200
+Epoch 6/25
+14s - loss: 0.2619 - acc: 0.8951 - val_loss: 0.2570 - val_acc: 0.9087
+Epoch 7/25
+14s - loss: 0.2320 - acc: 0.9135 - val_loss: 0.2534 - val_acc: 0.8925
+Epoch 8/25
+14s - loss: 0.2006 - acc: 0.9204 - val_loss: 0.6222 - val_acc: 0.6950
+Epoch 9/25
+14s - loss: 0.2041 - acc: 0.9225 - val_loss: 0.5531 - val_acc: 0.6288
+Epoch 10/25
+14s - loss: 0.1762 - acc: 0.9303 - val_loss: 0.1311 - val_acc: 0.9637
+Epoch 11/25
+14s - loss: 0.1373 - acc: 0.9544 - val_loss: 0.0927 - val_acc: 0.9700
+Epoch 12/25
+14s - loss: 0.1324 - acc: 0.9522 - val_loss: 0.1594 - val_acc: 0.9537
+Epoch 13/25
+14s - loss: 0.1382 - acc: 0.9531 - val_loss: 0.0728 - val_acc: 0.9800
+Epoch 14/25
+18s - loss: 0.0881 - acc: 0.9717 - val_loss: 0.1551 - val_acc: 0.9613
+Epoch 15/25
+16s - loss: 0.0986 - acc: 0.9699 - val_loss: 0.0481 - val_acc: 0.9875
+Epoch 16/25
+14s - loss: 0.0786 - acc: 0.9726 - val_loss: 0.0329 - val_acc: 0.9962
+Epoch 17/25
+14s - loss: 0.0608 - acc: 0.9818 - val_loss: 0.1255 - val_acc: 0.9550
+Epoch 18/25
+14s - loss: 0.0577 - acc: 0.9843 - val_loss: 0.0531 - val_acc: 0.9975
+Epoch 19/25
+14s - loss: 0.0571 - acc: 0.9842 - val_loss: 0.0296 - val_acc: 0.9900
+Epoch 20/25
+14s - loss: 0.0708 - acc: 0.9828 - val_loss: 0.0171 - val_acc: 0.9988
+Epoch 21/25
+14s - loss: 0.0476 - acc: 0.9871 - val_loss: 0.0079 - val_acc: 0.9988
+Epoch 22/25
+14s - loss: 0.0482 - acc: 0.9881 - val_loss: 0.0047 - val_acc: 1.0000
+Epoch 23/25
+14s - loss: 0.0620 - acc: 0.9897 - val_loss: 0.0076 - val_acc: 1.0000
+Epoch 24/25
+14s - loss: 0.0751 - acc: 0.9811 - val_loss: 0.0481 - val_acc: 0.9850
+Epoch 25/25
+14s - loss: 0.0623 - acc: 0.9889 - val_loss: 0.0063 - val_acc: 0.9988
+Prediction on test data resulted in a score of0.0352385111041 and accuracy of 0.992
+This network scored an average val_acc of 0.992 in the last 10 epochs
+:END:
+
