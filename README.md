@@ -17,6 +17,8 @@ We challenge you to improve this number, by ANY means! Be creative! If you can b
 
 ### Classification
 
+0.99 Ramin (using VGG16 proposed for ILSVRC-2014)
+
 0.9877 Mattias (using a reduced version of the VGGNet)
 
 0.9304 Oskar and Kristofer (using Keras Tutorial: The Ultimate Beginner's Guide....)
